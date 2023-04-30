@@ -3,11 +3,16 @@ import 'package:googleapis/sheets/v4.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:untitled1/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class DetailPage extends StatefulWidget {
+  final SharedPreferences prefs;
+
+
   final ListItem item;
 
-  DetailPage({required this.item});
+  DetailPage({required this.item, required this.prefs});
 
   @override
   _DetailPageState createState() => _DetailPageState();
@@ -69,12 +74,16 @@ class _DetailPageState extends State<DetailPage> {
       ),
       body: ListView.builder(
         itemCount: _studentNames.length,
+
         itemBuilder: (BuildContext context, int index) {
+          final studentName = _studentNames[index];
+          final attendanceStatus = _attendanceStatus[studentName] ?? false;
+
           return Card(
             elevation: 2,
-            color: _attendanceStatus[_studentNames[index]] == true
-                ? Colors.green
-                : Colors.white,
+            color: _attendanceStatus[studentName] == true ? Colors.green : Colors.white,
+
+
             child: Container(
               height: 80,
               child: ListTile(
@@ -106,8 +115,13 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
+
+
+// ...
+
   void _showConfirmationDialog(BuildContext context, String studentName, ListItem item) async {
     final sheetsApi = SheetsApi(await clientViaServiceAccount(_credentials, _scopes));
+    final prefs = await SharedPreferences.getInstance();
 
     showDialog(
       context: context,
@@ -126,6 +140,7 @@ class _DetailPageState extends State<DetailPage> {
               onPressed: () async {
                 setState(() {
                   _attendanceStatus[studentName] = true;
+                  prefs.setBool(studentName, true); // save attendance status in SharedPreferences
                 });
                 Navigator.pop(context);
 

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/lists.dart';
+import 'package:untitled1/attandance.dart';
+
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:untitled1/lists.dart';
+import 'package:untitled1/studentdetails.dart';
 
 
 void main() async {
@@ -45,7 +48,7 @@ class ListItemCard extends StatelessWidget {
         // Navigate to the page you want to display when the card is tapped.
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => DetailPage(item: item)),
+          MaterialPageRoute(builder: (context) => Studentdetails(item: item)),
         );
       },
       child: Card(
@@ -76,9 +79,7 @@ class MyListPage extends StatelessWidget {
     ListItem(
       title: 'Fellowship School',
     ),
-    ListItem(
-      title: 'john',
-    ),
+
     ListItem(
       title: 'Sewri Koilwada',
     ),
@@ -112,9 +113,7 @@ class MyListPage extends StatelessWidget {
     ListItem(
       title:'Goregaon ( Kids Paradise)',
     ),
-    ListItem(
-      title: 'Plaza Height ( Grant road)',
-    ),
+
     ListItem(
       title:'Thane Studio ( Tuesday and Thursday)',
     ),
@@ -135,6 +134,18 @@ class MyListPage extends StatelessWidget {
     ),
     ListItem(
         title:  'Varsha gulmohar ( Juhu)'
+    ),
+    ListItem(
+        title:   'Ajmera Bhakti Park ( Wednesday and Friday )'
+    ),
+    ListItem(
+        title:  'Andheri Lokhandwala'
+    ),
+    ListItem(
+        title:  'Kharghar'
+    ),
+    ListItem(
+        title:  'Byculla'
     ),
 
 
