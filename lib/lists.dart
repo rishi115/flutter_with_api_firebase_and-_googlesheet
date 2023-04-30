@@ -89,7 +89,7 @@ class _DetailPageState extends State<DetailPage> {
                     ElevatedButton(
                       onPressed: () {
                         _showConfirmationDialog(
-                            context, _studentNames[index]);
+                            context, _studentNames[index],widget.item);
                       },
                       child: Text(
                         'Paid',
@@ -106,9 +106,8 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  void _showConfirmationDialog(BuildContext context, String studentName) async {
-    final sheetsApi = SheetsApi(
-        await clientViaServiceAccount(_credentials, _scopes));
+  void _showConfirmationDialog(BuildContext context, String studentName, ListItem item) async {
+    final sheetsApi = SheetsApi(await clientViaServiceAccount(_credentials, _scopes));
 
     showDialog(
       context: context,
@@ -132,13 +131,14 @@ class _DetailPageState extends State<DetailPage> {
 
                 // Add attendance data to Google Sheet
                 final spreadsheetId = '1UR4fyNtd-vvvRQPDDBIJzMYquNp7H4NcU11T6qwh1gc';
-                final range = 'Users!A1:B1';
+                final sheetName = item.title;
+                final range = '$sheetName!A1:C1';
 
                 final valueRange = ValueRange.fromJson({
                   'range': range,
                   'majorDimension': 'ROWS',
                   'values': [
-                    [(studentName), 'Paid'],
+                    [studentName, 'Paid', DateTime.now().toString()],
                   ],
                 });
 
@@ -162,4 +162,6 @@ class _DetailPageState extends State<DetailPage> {
       },
     );
   }
+
+
 }
